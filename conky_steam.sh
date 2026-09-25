@@ -151,7 +151,8 @@ done
 echo "\${font}\${voffset -4}" >> "$output_tmp"
 
 if [[ "${#friend_ids[@]}" == "0" ]]; then
-  mv -f "$output_tmp" "$output_file"
+  echo "Aucun ami connecté"
+  rm "$output_file" >/dev/null 2>&1
 else
-  rm "$output_file"
+  mv -f "$output_tmp" "$output_file"
 fi
