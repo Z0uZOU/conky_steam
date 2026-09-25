@@ -2,6 +2,7 @@
 
 steam_api_key="YOUR_STEAM_API_KEY"
 steam_id="YOUR_STEAM_ID"
+steam_friends="STEAM_FRIEND_ID1 STEAM_FRIEND_ID2"
 
 script_name=$(basename "$0" .sh)
 script_folder="$HOME/.config/$script_name"
@@ -67,8 +68,12 @@ else
   mv -f "$cache_tmp" "$friends_cache"
 fi
 
-mapfile -t friend_ids < <(jq -r '.friendslist.friends[].steamid' <<< "$friends_response")
-declare -A players_by_id
+if [[ "$steam_friends" == "" ]]; then
+  mapfile -t friend_ids < <(jq -r '.friendslist.friends[].steamid' <<< "$friends_response")
+  declare -A players_by_id
+else
+  friend_ids+=($steam_friends)
+fi
 
 # GetPlayerSummaries accepte au maximum 100 SteamID par requête.
 for ((offset = 0; offset < ${#friend_ids[@]}; offset += 100)); do
@@ -144,4 +149,9 @@ for friend_id in "${playing_friends[@]}" "${online_friends[@]}"; do
 done
 
 echo "\${font}\${voffset -4}" >> "$output_tmp"
-mv -f "$output_tmp" "$output_file"
+
+if [[ "${#friend_ids[@]}" == "0" ]]; then
+  mv -f "$output_tmp" "$output_file"
+else
+  rm "$output_file"
+fi
