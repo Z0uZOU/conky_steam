@@ -105,7 +105,7 @@ font_title="\${font Ubuntu:bold:size=10}"
 font_awesome_font="Font Awesome 5 Pro:size=16"
 font_awesome_friends="\uf0c0"
 
-printf '%b\n' "\${font ${font_awesome_font}}${font_awesome_friends}\${font}\${goto 35} ${font_title}STEAM FRIENDS \${hr 2}" >> "$output_tmp"
+printf '%b\n' "\${font ${font_awesome_font}}${font_awesome_friends}\${font}\${goto 35} ${font_title}AMIS STEAM \${hr 2}" >> "$output_tmp"
 
 playing_friends=()
 online_friends=()
